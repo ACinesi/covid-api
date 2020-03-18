@@ -1,6 +1,7 @@
 from pathlib import Path
 import multiprocessing as mp
 import connexion
+from pathlib import Path
 from flask import render_template
 
 from commons.extensions import cache
@@ -8,6 +9,12 @@ from commons.scheduler import scheduler
 
 # Create the application instance
 app = connexion.App(__name__, specification_dir='./specifications/')
+
+# Check if cache folder exists
+cache_folder = Path('cache')
+if not cache_folder.exists():
+    cache_folder.mkdir()
+
 cache.init_app(app.app, config={'CACHE_TYPE': 'filesystem', 'CACHE_DIR': Path('cache/'), 'CACHE_DEFAULT_TIMEOUT': 60,
                                 'CACHE_THRESHOLD': 100})
 
