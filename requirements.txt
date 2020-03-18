@@ -4,3 +4,5 @@ connexion
 flask-caching
 swagger-ui-bundle
 schedule
+coloredlogs
+pyyaml

@@ -1,10 +1,10 @@
 import flask
-from handlers.utils import filter_by_dates
-from commons.extensions import cache
+from commons.utils import filter_by_dates
+from commons.cache import cache
 
 # TODO Use a database storage
 # TODO Use a redis caching system
-# TODO Update file
+# TODO Update json file using a scheduler DOING
 with open('static/data/dpc-covid19-ita-andamento-nazionale.json') as f:
     data = flask.json.load(f)
 

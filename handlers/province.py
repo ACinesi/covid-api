@@ -1,7 +1,7 @@
 import flask
 
-from handlers.utils import filter_by_dates
-from commons.extensions import cache
+from commons.utils import filter_by_dates
+from commons.cache import cache
 
 with open('static/data/dpc-covid19-ita-province.json') as f:
     data = flask.json.load(f)
