@@ -1,0 +1,290 @@
+swagger: "2.0"
+info:
+  description: This is the swagger file that goes with our server code
+  version: "1.0.0"
+  title: Swagger REST Article
+produces:
+  - "application/json"
+
+basePath: "/api/v1/"
+
+paths:
+  /nation:
+    get:
+      operationId: "handlers.nation.read_all"
+      tags:
+        - "Nation"
+      summary: "The nation data structure supported by the server application"
+      description: "Read all the observation data of the nation"
+      parameters:
+        - in: query
+          name: startDate
+          type: "string"
+          pattern: '^\d{4}-\d{2}-\d{2}$'
+          description: "The start date of the observations in the format(%Y-%m-&d)"
+          required: false
+        - in: query
+          name: endDate
+          type: "string"
+          pattern: '^\d{4}-\d{2}-\d{2}$'
+          description: "The end date of the observations in the format %Y-%m-&d"
+          required: false
+      responses:
+        200:
+          description: "Successful read observations data of the nation"
+          schema:
+            type: "array"
+            items:
+              $ref: '#/definitions/Nation'
+        400:
+          $ref: '#/responses/FormatDateError'
+        401:
+          $ref: '#/responses/StartEndDateError'
+  /region:
+    get:
+      operationId: "handlers.region.read_all"
+      tags:
+        - "Region"
+      summary: "The region data structure supported by the server application"
+      description: "Read all the observation data of all the regions"
+      parameters:
+        - in: query
+          name: startDate
+          type: "string"
+          pattern: '^\d{4}-\d{2}-\d{2}$'
+          description: "The start date of the observations in the format(%Y-%m-&d)"
+          required: false
+        - in: query
+          name: endDate
+          type: "string"
+          pattern: '^\d{4}-\d{2}-\d{2}$'
+          description: "The end date of the observations in the format %Y-%m-&d"
+          required: false
+      responses:
+        200:
+          description: "Successful read observations data of all  the regions"
+          schema:
+            type: "array"
+            items:
+              $ref: '#/definitions/Region'
+        400:
+          $ref: '#/responses/FormatDateError'
+        401:
+          $ref: '#/responses/StartEndDateError'
+  /region/{regionName}:
+    get:
+      operationId: "handlers.region.read_one"
+      tags:
+        - "Region"
+      summary: "The region data structure supported by the server application"
+      description: "Read all the observation data of a region"
+      parameters:
+        - in: path
+          name: regionName
+          description: "The region name"
+          type: "string"
+          required: true
+        - in: query
+          name: startDate
+          description: "The start date of the observations in the format(%Y-%m-&d)"
+          type: "string"
+          pattern: '^\d{4}-\d{2}-\d{2}$'
+          required: false
+        - in: query
+          name: endDate
+          description: "The end date of the observations in the format %Y-%m-&d"
+          type: "string"
+          pattern: '^\d{4}-\d{2}-\d{2}$'
+          required: false
+      responses:
+        200:
+          description: "Successful read all the observations data of a region"
+          schema:
+            type: "array"
+            items:
+              $ref: '#/definitions/Region'
+        400:
+          $ref: '#/responses/FormatDateError'
+        401:
+          $ref: '#/responses/StartEndDateError'
+  /province:
+    get:
+      operationId: "handlers.province.read_all"
+      tags:
+        - "Province"
+      summary: "The province data structure supported by the server application"
+      description: "Read all the observation data of all the provinces"
+      parameters:
+        - in: query
+          name: startDate
+          type: "string"
+          pattern: '^\d{4}-\d{2}-\d{2}$'
+          description: "The start date of the observations in the format(%Y-%m-&d)"
+          required: false
+        - in: query
+          name: endDate
+          type: "string"
+          pattern: '^\d{4}-\d{2}-\d{2}$'
+          description: "The end date of the observations in the format %Y-%m-&d"
+          required: false
+      responses:
+        200:
+          description: "Successful read observations data of all the provinces"
+          schema:
+            type: "array"
+            items:
+              $ref: '#/definitions/Province'
+        400:
+          $ref: '#/responses/FormatDateError'
+        401:
+          $ref: '#/responses/StartEndDateError'
+  /province/{provinceName}:
+    get:
+      operationId: "handlers.province.read_one"
+      tags:
+        - "Province"
+      summary: "The province data structure supported by the server application"
+      description: "Read all the observation data of a province"
+      parameters:
+        - in: path
+          name: provinceName
+          type: "string"
+          description: "The province name"
+          required: true
+        - in: query
+          name: startDate
+          type: "string"
+          pattern: '^\d{4}-\d{2}-\d{2}$'
+          description: "The start date of the observations in the format(%Y-%m-&d)"
+          required: false
+        - in: query
+          name: endDate
+          type: "string"
+          pattern: '^\d{4}-\d{2}-\d{2}$'
+          description: "The end date of the observations in the format %Y-%m-&d"
+          required: false
+      responses:
+        200:
+          description: "Successful read observations all the data of a province"
+          schema:
+            type: "array"
+            items:
+              $ref: '#/definitions/Province'
+        400:
+          $ref: '#/responses/FormatDateError'
+        401:
+          $ref: '#/responses/StartEndDateError'
+
+responses:
+  FormatDateError:
+    description: "startDate and endDate must be in the format YYYY-MM-DD"
+    schema:
+      $ref: '#/definitions/Error'
+  StartEndDateError:
+    description: "startDate must be lower or equal than endDate"
+    schema:
+      $ref: '#/definitions/Error'
+
+definitions:
+    Error:
+      type: object
+      properties:
+        code:
+          type: string
+        message:
+          type: string
+      required:
+        - code
+        - message
+    Nation:
+      type: object
+      properties:
+        data:
+          type: "string"
+          format: "date"
+        stato:
+          type: "string"
+        ricoverati_con_sintomi:
+          type: integer
+        terapia_intensiva:
+          type: integer
+        totale_ospedalizzati:
+          type: integer
+        isolamento_domiciliare:
+          type: integer
+        totale_attualmente_positivi:
+          type: integer
+        nuovi_attualmente_positivi:
+          type: integer
+        dimessi_guariti:
+          type: integer
+        deceduti:
+          type: integer
+        totale_casi:
+          type: integer
+        tamponi:
+          type: integer
+    Region:
+      type: object
+      properties:
+        data:
+          type: "string"
+          format: "date"
+        stato:
+          type: "string"
+        codice_regione:
+          type: integer
+        denominazione_regione:
+          type: "string"
+        lat:
+          type: number
+          format: double
+        long:
+          type: number
+          format: double
+        ricoverati_con_sintomi:
+          type: integer
+        terapia_intensiva:
+          type: integer
+        totale_ospedalizzati:
+          type: integer
+        isolamento_domiciliare:
+          type: integer
+        totale_attualmente_positivi:
+          type: integer
+        nuovi_attualmente_positivi:
+          type: integer
+        dimessi_guariti:
+          type: integer
+        deceduti:
+          type: integer
+        totale_casi:
+          type: integer
+        tamponi:
+          type: integer
+    Province:
+      type: object
+      properties:
+        data:
+          type: "string"
+          format: "date"
+        stato:
+          type: "string"
+        codice_regione:
+          type: integer
+        denominazione_regione:
+          type: "string"
+        codice_provincia:
+          type: integer
+        denominazione_provincia:
+          type: "string"
+        sigla_provincia:
+          type: "string"
+        lat:
+          type: number
+          format: double
+        long:
+          type: number
+          format: double
+        totale_casi:
+          type: integer

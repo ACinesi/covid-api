@@ -1,0 +1,6 @@
+requests
+flask
+connexion
+flask-caching
+swagger-ui-bundle
+schedule
