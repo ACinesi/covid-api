@@ -33,7 +33,8 @@ Run the server.
 ```
 
 ## Usage
-The server run on **localhost:5000**.
+The server run on **http://localhost:5000**.
+
 The API documentation is visible using **http://localhost:5000/api/v1/ui**.
 
 ENJOY :rocket: :rocket:
