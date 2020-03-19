@@ -1,209 +1,248 @@
-swagger: "2.0"
+openapi: 3.0.1
 info:
-  description: This is the swagger file that goes with our server code
-  version: "1.0.0"
   title: Swagger REST Article
-produces:
-  - "application/json"
-
-basePath: "/api/v1/"
-
+  description: This is the swagger file that goes with our server code
+  version: 1.0.0
+servers:
+- url: /api/v1/
 paths:
   /nation:
     get:
-      operationId: "handlers.nation.read_all"
       tags:
-        - "Nation"
-      summary: "The nation data structure supported by the server application"
-      description: "Read all the observation data of the nation"
+      - Nation
+      summary: The nation data structure supported by the server application
+      description: Read all the observation data of the nation
+      operationId: handlers.nation.read_all
       parameters:
-        - in: query
-          name: startDate
-          type: "string"
-          pattern: '^\d{4}-\d{2}-\d{2}$'
-          description: "The start date of the observations in the format(%Y-%m-&d)"
-          required: false
-        - in: query
-          name: endDate
-          type: "string"
-          pattern: '^\d{4}-\d{2}-\d{2}$'
-          description: "The end date of the observations in the format %Y-%m-&d"
-          required: false
+      - name: startDate
+        in: query
+        description: The start date of the observations in the format YYYY-MM-DD
+        schema:
+          pattern: ^\d{4}-\d{2}-\d{2}$
+          type: string
+      - name: endDate
+        in: query
+        description: The end date of the observations in the format YYYY-MM-DD
+        schema:
+          pattern: ^\d{4}-\d{2}-\d{2}$
+          type: string
       responses:
         200:
-          description: "Successful read observations data of the nation"
-          schema:
-            type: "array"
-            items:
-              $ref: '#/definitions/Nation'
+          description: Successful read observations data of the nation
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Nation'
         400:
-          $ref: '#/responses/FormatDateError'
+          description: startDate and endDate must be in the format YYYY-MM-DD
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
         401:
-          $ref: '#/responses/StartEndDateError'
+          description: startDate must be lower or equal than endDate
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
   /region:
     get:
-      operationId: "handlers.region.read_all"
       tags:
-        - "Region"
-      summary: "The region data structure supported by the server application"
-      description: "Read all the observation data of all the regions"
+      - Region
+      summary: The region data structure supported by the server application
+      description: Read all the observation data of all the regions
+      operationId: handlers.region.read_all
       parameters:
-        - in: query
-          name: startDate
-          type: "string"
-          pattern: '^\d{4}-\d{2}-\d{2}$'
-          description: "The start date of the observations in the format(%Y-%m-&d)"
-          required: false
-        - in: query
-          name: endDate
-          type: "string"
-          pattern: '^\d{4}-\d{2}-\d{2}$'
-          description: "The end date of the observations in the format %Y-%m-&d"
-          required: false
+      - name: startDate
+        in: query
+        description: The start date of the observations in the format YYYY-MM-DD
+        schema:
+          pattern: ^\d{4}-\d{2}-\d{2}$
+          type: string
+      - name: endDate
+        in: query
+        description: The end date of the observations in the format YYYY-MM-DD
+        schema:
+          pattern: ^\d{4}-\d{2}-\d{2}$
+          type: string
       responses:
         200:
-          description: "Successful read observations data of all  the regions"
-          schema:
-            type: "array"
-            items:
-              $ref: '#/definitions/Region'
+          description: Successful read observations data of all  the regions
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Region'
         400:
-          $ref: '#/responses/FormatDateError'
+          description: startDate and endDate must be in the format YYYY-MM-DD
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
         401:
-          $ref: '#/responses/StartEndDateError'
+          description: startDate must be lower or equal than endDate
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
   /region/{regionName}:
     get:
-      operationId: "handlers.region.read_one"
       tags:
-        - "Region"
-      summary: "The region data structure supported by the server application"
-      description: "Read all the observation data of a region"
+      - Region
+      summary: The region data structure supported by the server application
+      description: Read all the observation data of a region
+      operationId: handlers.region.read_one
       parameters:
-        - in: path
-          name: regionName
-          description: "The region name"
-          type: "string"
-          required: true
-        - in: query
-          name: startDate
-          description: "The start date of the observations in the format(%Y-%m-&d)"
-          type: "string"
-          pattern: '^\d{4}-\d{2}-\d{2}$'
-          required: false
-        - in: query
-          name: endDate
-          description: "The end date of the observations in the format %Y-%m-&d"
-          type: "string"
-          pattern: '^\d{4}-\d{2}-\d{2}$'
-          required: false
+      - name: regionName
+        in: path
+        description: The region name
+        required: true
+        schema:
+          type: string
+      - name: startDate
+        in: query
+        description: The start date of the observations in the format YYYY-MM-DD
+        schema:
+          pattern: ^\d{4}-\d{2}-\d{2}$
+          type: string
+      - name: endDate
+        in: query
+        description: The end date of the observations in the format YYYY-MM-DD
+        schema:
+          pattern: ^\d{4}-\d{2}-\d{2}$
+          type: string
       responses:
         200:
-          description: "Successful read all the observations data of a region"
-          schema:
-            type: "array"
-            items:
-              $ref: '#/definitions/Region'
+          description: Successful read all the observations data of a region
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Region'
         400:
-          $ref: '#/responses/FormatDateError'
+          description: startDate and endDate must be in the format YYYY-MM-DD
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
         401:
-          $ref: '#/responses/StartEndDateError'
+          description: startDate must be lower or equal than endDate
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
   /province:
     get:
-      operationId: "handlers.province.read_all"
       tags:
-        - "Province"
-      summary: "The province data structure supported by the server application"
-      description: "Read all the observation data of all the provinces"
+      - Province
+      summary: The province data structure supported by the server application
+      description: Read all the observation data of all the provinces
+      operationId: handlers.province.read_all
       parameters:
-        - in: query
-          name: startDate
-          type: "string"
-          pattern: '^\d{4}-\d{2}-\d{2}$'
-          description: "The start date of the observations in the format(%Y-%m-&d)"
-          required: false
-        - in: query
-          name: endDate
-          type: "string"
-          pattern: '^\d{4}-\d{2}-\d{2}$'
-          description: "The end date of the observations in the format %Y-%m-&d"
-          required: false
+      - name: startDate
+        in: query
+        description: The start date of the observations in the format YYYY-MM-DD
+        schema:
+          pattern: ^\d{4}-\d{2}-\d{2}$
+          type: string
+      - name: endDate
+        in: query
+        description: The end date of the observations in the format YYYY-MM-DD
+        schema:
+          pattern: ^\d{4}-\d{2}-\d{2}$
+          type: string
       responses:
         200:
-          description: "Successful read observations data of all the provinces"
-          schema:
-            type: "array"
-            items:
-              $ref: '#/definitions/Province'
+          description: Successful read observations data of all the provinces
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Province'
         400:
-          $ref: '#/responses/FormatDateError'
+          description: startDate and endDate must be in the format YYYY-MM-DD
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
         401:
-          $ref: '#/responses/StartEndDateError'
+          description: startDate must be lower or equal than endDate
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
   /province/{provinceName}:
     get:
-      operationId: "handlers.province.read_one"
       tags:
-        - "Province"
-      summary: "The province data structure supported by the server application"
-      description: "Read all the observation data of a province"
+      - Province
+      summary: The province data structure supported by the server application
+      description: Read all the observation data of a province
+      operationId: handlers.province.read_one
       parameters:
-        - in: path
-          name: provinceName
-          type: "string"
-          description: "The province name"
-          required: true
-        - in: query
-          name: startDate
-          type: "string"
-          pattern: '^\d{4}-\d{2}-\d{2}$'
-          description: "The start date of the observations in the format(%Y-%m-&d)"
-          required: false
-        - in: query
-          name: endDate
-          type: "string"
-          pattern: '^\d{4}-\d{2}-\d{2}$'
-          description: "The end date of the observations in the format %Y-%m-&d"
-          required: false
+      - name: provinceName
+        in: path
+        description: The province name
+        required: true
+        schema:
+          type: string
+      - name: startDate
+        in: query
+        description: The start date of the observations in the format YYYY-MM-DD
+        schema:
+          pattern: ^\d{4}-\d{2}-\d{2}$
+          type: string
+      - name: endDate
+        in: query
+        description: The end date of the observations in the format YYYY-MM-DD
+        schema:
+          pattern: ^\d{4}-\d{2}-\d{2}$
+          type: string
       responses:
         200:
-          description: "Successful read observations all the data of a province"
-          schema:
-            type: "array"
-            items:
-              $ref: '#/definitions/Province'
+          description: Successful read observations all the data of a province
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Province'
         400:
-          $ref: '#/responses/FormatDateError'
+          description: startDate and endDate must be in the format YYYY-MM-DD
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
         401:
-          $ref: '#/responses/StartEndDateError'
-
-responses:
-  FormatDateError:
-    description: "startDate and endDate must be in the format YYYY-MM-DD"
-    schema:
-      $ref: '#/definitions/Error'
-  StartEndDateError:
-    description: "startDate must be lower or equal than endDate"
-    schema:
-      $ref: '#/definitions/Error'
-
-definitions:
+          description: startDate must be lower or equal than endDate
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+components:
+  schemas:
     Error:
+      required:
+      - code
+      - message
       type: object
       properties:
         code:
           type: string
         message:
           type: string
-      required:
-        - code
-        - message
     Nation:
       type: object
       properties:
         data:
-          type: "string"
-          format: "date"
+          type: string
+          format: date
         stato:
-          type: "string"
+          type: string
         ricoverati_con_sintomi:
           type: integer
         terapia_intensiva:
@@ -228,14 +267,14 @@ definitions:
       type: object
       properties:
         data:
-          type: "string"
-          format: "date"
+          type: string
+          format: date
         stato:
-          type: "string"
+          type: string
         codice_regione:
           type: integer
         denominazione_regione:
-          type: "string"
+          type: string
         lat:
           type: number
           format: double
@@ -266,20 +305,20 @@ definitions:
       type: object
       properties:
         data:
-          type: "string"
-          format: "date"
+          type: string
+          format: date
         stato:
-          type: "string"
+          type: string
         codice_regione:
           type: integer
         denominazione_regione:
-          type: "string"
+          type: string
         codice_provincia:
           type: integer
         denominazione_provincia:
-          type: "string"
+          type: string
         sigla_provincia:
-          type: "string"
+          type: string
         lat:
           type: number
           format: double
@@ -288,3 +327,16 @@ definitions:
           format: double
         totale_casi:
           type: integer
+  responses:
+    FormatDateError:
+      description: startDate and endDate must be in the format YYYY-MM-DD
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    StartEndDateError:
+      description: startDate must be lower or equal than endDate
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'

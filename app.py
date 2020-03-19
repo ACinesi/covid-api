@@ -5,7 +5,7 @@ from flask import render_template
 
 from commons.cache import cache
 from commons.logging import setup_logging
-from commons.scheduler import scheduler
+from commons.scheduler import scheduler, update_json
 
 setup_logging()
 
@@ -33,6 +33,6 @@ def home():
 
 # If we're running in stand alone mode, run the application
 if __name__ == '__main__':
-    t = mp.Process(name='Scheduler process', target=scheduler)
+    t = mp.Process(name='Update json process', target=scheduler)
     t.start()
     app.run(host='0.0.0.0', port=5000, debug=True)
