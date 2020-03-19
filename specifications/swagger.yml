@@ -4,28 +4,28 @@ info:
   description: This is the swagger file that goes with our server code
   version: 1.0.0
 servers:
-- url: /api/v1/
+  - url: /api/v1/
 paths:
   /nation:
     get:
       tags:
-      - Nation
+        - Nation
       summary: The nation data structure supported by the server application
       description: Read all the observation data of the nation
       operationId: handlers.nation.read_all
       parameters:
-      - name: startDate
-        in: query
-        description: The start date of the observations in the format YYYY-MM-DD
-        schema:
-          pattern: ^\d{4}-\d{2}-\d{2}$
-          type: string
-      - name: endDate
-        in: query
-        description: The end date of the observations in the format YYYY-MM-DD
-        schema:
-          pattern: ^\d{4}-\d{2}-\d{2}$
-          type: string
+        - name: startDate
+          in: query
+          description: The start date of the observations in the format YYYY-MM-DD
+          schema:
+            pattern: ^\d{4}-\d{2}-\d{2}$
+            type: string
+        - name: endDate
+          in: query
+          description: The end date of the observations in the format YYYY-MM-DD
+          schema:
+            pattern: ^\d{4}-\d{2}-\d{2}$
+            type: string
       responses:
         200:
           description: Successful read observations data of the nation
@@ -50,23 +50,23 @@ paths:
   /region:
     get:
       tags:
-      - Region
+        - Region
       summary: The region data structure supported by the server application
       description: Read all the observation data of all the regions
       operationId: handlers.region.read_all
       parameters:
-      - name: startDate
-        in: query
-        description: The start date of the observations in the format YYYY-MM-DD
-        schema:
-          pattern: ^\d{4}-\d{2}-\d{2}$
-          type: string
-      - name: endDate
-        in: query
-        description: The end date of the observations in the format YYYY-MM-DD
-        schema:
-          pattern: ^\d{4}-\d{2}-\d{2}$
-          type: string
+        - name: startDate
+          in: query
+          description: The start date of the observations in the format YYYY-MM-DD
+          schema:
+            pattern: ^\d{4}-\d{2}-\d{2}$
+            type: string
+        - name: endDate
+          in: query
+          description: The end date of the observations in the format YYYY-MM-DD
+          schema:
+            pattern: ^\d{4}-\d{2}-\d{2}$
+            type: string
       responses:
         200:
           description: Successful read observations data of all  the regions
@@ -91,29 +91,29 @@ paths:
   /region/{regionName}:
     get:
       tags:
-      - Region
+        - Region
       summary: The region data structure supported by the server application
       description: Read all the observation data of a region
       operationId: handlers.region.read_one
       parameters:
-      - name: regionName
-        in: path
-        description: The region name
-        required: true
-        schema:
-          type: string
-      - name: startDate
-        in: query
-        description: The start date of the observations in the format YYYY-MM-DD
-        schema:
-          pattern: ^\d{4}-\d{2}-\d{2}$
-          type: string
-      - name: endDate
-        in: query
-        description: The end date of the observations in the format YYYY-MM-DD
-        schema:
-          pattern: ^\d{4}-\d{2}-\d{2}$
-          type: string
+        - name: regionName
+          in: path
+          description: The region name
+          required: true
+          schema:
+            type: string
+        - name: startDate
+          in: query
+          description: The start date of the observations in the format YYYY-MM-DD
+          schema:
+            pattern: ^\d{4}-\d{2}-\d{2}$
+            type: string
+        - name: endDate
+          in: query
+          description: The end date of the observations in the format YYYY-MM-DD
+          schema:
+            pattern: ^\d{4}-\d{2}-\d{2}$
+            type: string
       responses:
         200:
           description: Successful read all the observations data of a region
@@ -138,23 +138,23 @@ paths:
   /province:
     get:
       tags:
-      - Province
+        - Province
       summary: The province data structure supported by the server application
       description: Read all the observation data of all the provinces
       operationId: handlers.province.read_all
       parameters:
-      - name: startDate
-        in: query
-        description: The start date of the observations in the format YYYY-MM-DD
-        schema:
-          pattern: ^\d{4}-\d{2}-\d{2}$
-          type: string
-      - name: endDate
-        in: query
-        description: The end date of the observations in the format YYYY-MM-DD
-        schema:
-          pattern: ^\d{4}-\d{2}-\d{2}$
-          type: string
+        - name: startDate
+          in: query
+          description: The start date of the observations in the format YYYY-MM-DD
+          schema:
+            pattern: ^\d{4}-\d{2}-\d{2}$
+            type: string
+        - name: endDate
+          in: query
+          description: The end date of the observations in the format YYYY-MM-DD
+          schema:
+            pattern: ^\d{4}-\d{2}-\d{2}$
+            type: string
       responses:
         200:
           description: Successful read observations data of all the provinces
@@ -179,29 +179,29 @@ paths:
   /province/{provinceName}:
     get:
       tags:
-      - Province
+        - Province
       summary: The province data structure supported by the server application
       description: Read all the observation data of a province
       operationId: handlers.province.read_one
       parameters:
-      - name: provinceName
-        in: path
-        description: The province name
-        required: true
-        schema:
-          type: string
-      - name: startDate
-        in: query
-        description: The start date of the observations in the format YYYY-MM-DD
-        schema:
-          pattern: ^\d{4}-\d{2}-\d{2}$
-          type: string
-      - name: endDate
-        in: query
-        description: The end date of the observations in the format YYYY-MM-DD
-        schema:
-          pattern: ^\d{4}-\d{2}-\d{2}$
-          type: string
+        - name: provinceName
+          in: path
+          description: The province name
+          required: true
+          schema:
+            type: string
+        - name: startDate
+          in: query
+          description: The start date of the observations in the format YYYY-MM-DD
+          schema:
+            pattern: ^\d{4}-\d{2}-\d{2}$
+            type: string
+        - name: endDate
+          in: query
+          description: The end date of the observations in the format YYYY-MM-DD
+          schema:
+            pattern: ^\d{4}-\d{2}-\d{2}$
+            type: string
       responses:
         200:
           description: Successful read observations all the data of a province
@@ -227,8 +227,8 @@ components:
   schemas:
     Error:
       required:
-      - code
-      - message
+        - code
+        - message
       type: object
       properties:
         code:

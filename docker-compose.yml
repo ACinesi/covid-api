@@ -1,7 +1,12 @@
 version: '3'
 services:
   web:
-    image: "acinesi/covid-web-server:latest"
+    build: .
+    environment:
+      - FLASK_RUN_HOST=0.0.0.0
+      - FLASK_RUN_PORT=5000
+      - FLASK_ENV=development
+      - UPDATE_TIME=00:00
     ports:
       - "5000:5000"
     volumes:

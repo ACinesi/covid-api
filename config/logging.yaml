@@ -65,12 +65,12 @@ handlers:
     mode: a
 
 loggers:
-    <module>:
-        level: INFO
-        handlers: [console, info_file_handler, error_file_handler, critical_file_handler, debug_file_handler, warn_file_handler]
-        propogate: no
+  <module>:
+    level: DEBUG
+    handlers: [console, info_file_handler, error_file_handler, critical_file_handler, debug_file_handler, warn_file_handler]
+    propogate: no
 
-    <module.x>:
-        level: DEBUG
-        handlers: [info_file_handler, error_file_handler, critical_file_handler, debug_file_handler, warn_file_handler]
-        propogate: yes
+  <module.x>:
+    level: DEBUG
+    handlers: [info_file_handler, error_file_handler, critical_file_handler, debug_file_handler, warn_file_handler]
+    propogate: yes

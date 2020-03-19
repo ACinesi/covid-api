@@ -1,6 +1,7 @@
 import flask
-from commons.utils import filter_by_dates
+
 from commons.cache import cache
+from commons.utils import filter_by_dates
 
 # TODO Use a database storage
 # TODO Use a redis caching system

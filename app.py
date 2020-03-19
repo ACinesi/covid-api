@@ -1,13 +1,23 @@
+import logging
 import multiprocessing as mp
-import connexion
+import os
 from pathlib import Path
+
+import connexion
 from flask import render_template
 
 from commons.cache import cache
 from commons.logging import setup_logging
-from commons.scheduler import scheduler, update_json
+from commons.scheduler import scheduler
 
 setup_logging()
+logger = logging.getLogger('<module>')
+
+FLASK_RUN_HOST = os.getenv('FLASK_RUN_HOST', '0.0.0.0')
+FLASK_RUN_PORT = os.getenv('FLASK_RUN_PORT', 5000)
+
+logger.info(f'FLASK_RUN_HOST: {FLASK_RUN_HOST}')
+logger.info(f'FLASK_RUN_PORT: {FLASK_RUN_PORT}')
 
 # Create the application instance
 app = connexion.App(__name__, specification_dir=Path('./specifications/'))
@@ -35,4 +45,4 @@ def home():
 if __name__ == '__main__':
     t = mp.Process(name='Update json process', target=scheduler)
     t.start()
-    app.run(host='0.0.0.0', port=5000, debug=True)
+    app.run(host=FLASK_RUN_HOST, port=FLASK_RUN_PORT)

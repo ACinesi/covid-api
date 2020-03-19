@@ -1,10 +1,14 @@
+import logging
+import os
 import time
 from pathlib import Path
 
-import logging
 import requests
 import schedule
 
+logger = logging.getLogger('<module>')
+
+UPDATE_TIME = os.getenv('UPDATE_TIME', '00:00')
 base_path = Path('static/data')
 
 urls = {
@@ -15,8 +19,6 @@ urls = {
     'dpc-covid19-ita-andamento-nazionale.json':
         'https://raw.githubusercontent.com/pcm-dpc/COVID-19/master/dati-json/dpc-covid19-ita-andamento-nazionale.json',
 }
-
-logger = logging.getLogger('<module>')
 
 
 def update_json():
@@ -29,8 +31,9 @@ def update_json():
 
 def scheduler():
     logger.info("Scheduler attivato.")
+    logger.info(f'UPDATE_TIME: {UPDATE_TIME}')
     try:
-        schedule.every().day.at("19:00").do(update_json)
+        schedule.every().day.at(UPDATE_TIME).do(update_json)
         while True:
             schedule.run_pending()
             time.sleep(1)
