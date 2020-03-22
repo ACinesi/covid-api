@@ -1,19 +1,16 @@
-import flask
-
 from commons.cache import cache
-from commons.utils import filter_by_dates
+from commons.mongodb import get_db, get_date_query
+from commons.utils import check_dates
 
-# TODO Use a database storage
+
 # TODO Use a redis caching system
-# TODO Update json file using a scheduler DOING
-with open('static/data/dpc-covid19-ita-andamento-nazionale.json') as f:
-    data = flask.json.load(f)
-
 
 def read_all(startDate=None, endDate=None):
-    filtered_data = cache.get(f'nation_{startDate}_{endDate}')
-    if not filtered_data:
-        filtered_data = filter_by_dates(data, startDate, endDate)
-        if filtered_data:
-            cache.set(f'nation_{startDate}_{endDate}', filtered_data)
-    return filtered_data
+    result = cache.get(f'nation_{startDate}_{endDate}')
+    if not result:
+        start_date, end_date = check_dates(startDate, endDate)
+        collection = get_db()['nation']
+        query = get_date_query(start_date, end_date)
+        result = [doc for doc in collection.find(query, {'_id': False})]
+        cache.set(f'nation_{startDate}_{endDate}', result)
+    return result

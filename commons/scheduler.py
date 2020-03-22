@@ -33,6 +33,7 @@ def scheduler():
     logger.info("Scheduler attivato.")
     logger.info(f'UPDATE_TIME: {UPDATE_TIME}')
     try:
+        update_json()
         schedule.every().day.at(UPDATE_TIME).do(update_json)
         while True:
             schedule.run_pending()

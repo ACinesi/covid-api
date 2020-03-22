@@ -3,31 +3,20 @@ A web API server to get updated data about COVID in Italy. *EASY AND FAST*.
 
 For *Development* purpose only.
 
-The data are updated at startup time and each day at midnight(Italy) using a scheduled process.
+The data are updated at startup time and each day at midnight (Italy time zone), by default, using a scheduled process.
 
-**KEYWORDS: Flask, Connexion, Swagger, OAS3.**
-
-## Install the library
-### Install as python package
-Install dependencies:
-```bash
-> cd covid-api
-> pip install -r requirements.txt
-```
-Run the server:
-```bash
-> python app.py
-```
+**KEYWORDS: Flask, Connexion, Swagger, OAS3, MongoDB**
 
 ## Fast Setup
-### Install using Docker Compose. 
+
+### Install using Docker Compose.
 
 Run the server.
 ```bash
 > cd covid-api
 > docker-compose up
 ```
-Run the server and rebuild the image.
+Run the server and rebuild the image (useful after changes on the code).
 ```bash
 > cd covid-api
 > docker-compose up --build
@@ -40,20 +29,32 @@ Run the server and rebuild the image.
 ```
 
 ## Usage
-The server run on **http://localhost:5000**.
+The server run on **http://localhost:5000** by default.
 
 The API documentation is visible using **http://localhost:5000/api/v1/ui**.
 
-To change some network params (docker-compose.yaml): 
+Data are stored in a *MongoDB* database and it is possible to view the content through *MongoExpress* using **http://localhost:i8081**.
+
+The parameters are stored in the *.env* file in the root of the project: 
 ```
-environment:
-      - FLASK_RUN_HOST=0.0.0.0 # hostname
-      - FLASK_RUN_PORT=5000 # port
-      - FLASK_ENV=development # environemnt "development" or "production"
-```
-And rememeber to change the port mapping.
-```
-ports:
-      - "5000:5000"
+# MONGODB
+MONGO_INITDB_ROOT_USERNAME=root
+MONGO_INITDB_ROOT_PASSWORD=root
+MONGO_INITDB_HOST=0.0.0.0
+MONGO_INITDB_PORT=27017
+MONGO_INITDB_DATABASE=covid 
+MONGO_INITDB_DROP_AT_STARTUP=0 # Whether or not to drop the database at init time.
+
+# MONGOEXPRESS
+MONGO_EXPRESS_PORT=8081
+
+# FLASK
+FLASK_RUN_HOST=0.0.0.0
+FLASK_RUN_PORT=5000
+FLASK_ENV=development
+
+# SCHEDULER
+UPDATE_AUTO=0 # Whether or not to start a process to update data each day at UPDATE_TIME. 
+UPDATE_TIME=00:00 # The update time expressed as HH:MM based on Italy time zone.
 ```
 ENJOY :rocket: :rocket:

@@ -3,11 +3,39 @@ services:
   web:
     build: .
     environment:
-      - FLASK_RUN_HOST=0.0.0.0
-      - FLASK_RUN_PORT=5000
-      - FLASK_ENV=development
-      - UPDATE_TIME=00:00
+      FLASK_RUN_HOST: "${FLASK_RUN_HOST}"
+      FLASK_RUN_PORT: "${FLASK_RUN_PORT}"
+      FLASK_ENV: "${FLASK_ENV}"
+      UPDATE_TIME: "${UPDATE_TIME}"
+      UPDATE_AUTO: "${UPDATE_AUTO}"
+      MONGO_INITDB_ROOT_USERNAME: "${MONGO_INITDB_ROOT_USERNAME}"
+      MONGO_INITDB_ROOT_PASSWORD: "${MONGO_INITDB_ROOT_PASSWORD}"
+      MONGO_INITDB_HOST: mongo
+      MONGO_INITDB_PORT: "${MONGO_INITDB_PORT}"
+      MONGO_INITDB_DATABASE: "${MONGO_INITDB_DATABASE}"
+      MONGO_INITDB_DROP_AT_STARTUP: "${MONGO_INITDB_DROP_AT_STARTUP}"
     ports:
-      - "5000:5000"
+      - "${FLASK_RUN_PORT}:${FLASK_RUN_PORT}"
     volumes:
       - "./logs:/code/logs"
+    depends_on:
+      - mongo
+    links:
+      - mongo
+  mongo:
+    image: mongo
+    command: mongod
+    restart: always
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: "${MONGO_INITDB_ROOT_USERNAME}"
+      MONGO_INITDB_ROOT_PASSWORD: "${MONGO_INITDB_ROOT_PASSWORD}"
+  mongo-express:
+    image: mongo-express
+    restart: always
+    ports:
+      - ${MONGO_EXPRESS_PORT}:${MONGO_EXPRESS_PORT}
+    environment:
+      ME_CONFIG_MONGODB_ADMINUSERNAME: "${MONGO_INITDB_ROOT_USERNAME}"
+      ME_CONFIG_MONGODB_ADMINPASSWORD: "${MONGO_INITDB_ROOT_PASSWORD}"
+    depends_on:
+      - mongo
