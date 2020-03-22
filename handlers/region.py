@@ -1,28 +1,26 @@
-import flask
-
 from commons.cache import cache
-from commons.utils import filter_by_dates
-
-with open('static/data/dpc-covid19-ita-regioni.json') as f:
-    data = flask.json.load(f)
+from commons.mongodb import get_date_query, get_db
+from commons.utils import check_dates
 
 
 def read_all(startDate=None, endDate=None):
-    filtered_data = cache.get(f'region_{startDate}_{endDate}')
-    if not filtered_data:
-        filtered_data = filter_by_dates(data, startDate, endDate)
-        if filtered_data:
-            cache.set(f'region_{startDate}_{endDate}', filtered_data)
-    return filtered_data
+    result = cache.get(f'region_{startDate}_{endDate}')
+    if not result:
+        start_date, end_date = check_dates(startDate, endDate)
+        collection = get_db()['region']
+        query = get_date_query(start_date, end_date)
+        result = [doc for doc in collection.find(query, {'_id': False})]
+        cache.set(f'region_{startDate}_{endDate}', result)
+    return result
 
 
 def read_one(regionName, startDate=None, endDate=None):
-    filtered_data = cache.get(f'region_{regionName}_{startDate}_{endDate}')
-    if not filtered_data:
-        filtered_data = [item for item in data if str.lower(item['denominazione_regione']) == str.lower(
-            regionName)]
-        if filtered_data:
-            filtered_data = filter_by_dates(filtered_data, startDate, endDate)
-            if filtered_data:
-                cache.set(f'region_{regionName}_{startDate}_{endDate}', filtered_data)
-    return filtered_data
+    result = cache.get(f'region_{regionName}_{startDate}_{endDate}')
+    if not result:
+        start_date, end_date = check_dates(startDate, endDate)
+        collection = get_db()['region']
+        query = get_date_query(start_date, end_date)
+        query['denominazione_regione'] = regionName
+        result = [doc for doc in collection.find(query, {'_id': False})]
+        cache.set(f'region_{regionName}_{startDate}_{endDate}', result)
+    return result

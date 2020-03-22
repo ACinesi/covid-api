@@ -1,12 +1,10 @@
+import re
 from datetime import datetime
 
 import flask
 
 
-def filter_by_dates(data, startDate, endDate):
-    if not startDate and not endDate:
-        return [item for item in data]
-
+def check_dates(startDate, endDate):
     start_date = None
     end_date = None
     if startDate:
@@ -18,12 +16,11 @@ def filter_by_dates(data, startDate, endDate):
         if end_date < start_date:
             return flask.make_response(flask.jsonify({'msg': 'startDate must be lower or equal than endDate'}), 401)
 
-    filtered_data = data
-    if start_date:
-        filtered_data = [item for item in filtered_data if datetime.strptime(item['data'], '%Y-%m-%d %X') >=
-                         start_date]
-    if end_date:
-        filtered_data = [item for item in filtered_data if datetime.strptime(item['data'], '%Y-%m-%d %X') <=
-                         end_date]
+    return start_date, endDate
 
-    return filtered_data
+
+def sanitize_date(date, pattern=r'^\d{4}-\d{2}-\d{2}', as_date=False):
+    temp_date = re.search(pattern=pattern, string=date).group(0)
+    if as_date:
+        temp_date = datetime.strptime(temp_date, "%Y-%m-%d")
+    return temp_date

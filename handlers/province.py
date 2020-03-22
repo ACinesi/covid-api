@@ -1,27 +1,30 @@
-import flask
-
 from commons.cache import cache
-from commons.utils import filter_by_dates
+from commons.mongodb import get_date_query, get_db
+from commons.utils import check_dates
 
-with open('static/data/dpc-covid19-ita-province.json') as f:
-    data = flask.json.load(f)
+
+# with open('static/data/dpc-covid19-ita-province.json') as f:
+#     data = flask.json.load(f)
 
 
 def read_all(startDate=None, endDate=None):
-    filtered_data = cache.get(f'province_{startDate}_{endDate}')
-    if not filtered_data:
-        filtered_data = filter_by_dates(data, startDate, endDate)
-        if filtered_data:
-            cache.set(f'province_{startDate}_{endDate}', filtered_data)
-    return filtered_data
+    result = cache.get(f'province_{startDate}_{endDate}')
+    if not result:
+        start_date, end_date = check_dates(startDate, endDate)
+        collection = get_db()['province']
+        query = get_date_query(start_date, end_date)
+        result = [doc for doc in collection.find(query, {'_id': False})]
+    cache.set(f'province_{startDate}_{endDate}', result)
+    return result
 
 
 def read_one(provinceName, startDate=None, endDate=None):
-    filtered_data = cache.get(f'province_{provinceName}_{startDate}_{endDate}')
-    if not filtered_data:
-        filtered_data = [item for item in data if str.lower(item['denominazione_provincia']) == str.lower(provinceName)]
-        if filtered_data:
-            filtered_data = filter_by_dates(filtered_data, startDate, endDate)
-            if filtered_data:
-                cache.set(f'province_{provinceName}_{startDate}_{endDate}', filtered_data)
-    return filtered_data
+    result = cache.get(f'province_{provinceName}_{startDate}_{endDate}')
+    if not result:
+        start_date, end_date = check_dates(startDate, endDate)
+        collection = get_db()['province']
+        query = get_date_query(start_date, end_date)
+        query['denominazione_provincia'] = provinceName
+        result = [doc for doc in collection.find(query, {'_id': False})]
+        cache.set(f'province_{provinceName}_{startDate}_{endDate}', result)
+    return result

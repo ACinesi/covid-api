@@ -6,3 +6,4 @@ swagger-ui-bundle
 schedule
 coloredlogs
 pyyaml
+pymongo
