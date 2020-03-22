@@ -33,7 +33,7 @@ The server run on **http://localhost:5000** by default.
 
 The API documentation is visible using **http://localhost:5000/api/v1/ui**.
 
-Data are stored in a *MongoDB* database and it is possible to view the content through *MongoExpress* using **http://localhost:i8081**.
+Data are stored in a *MongoDB* database and it is possible to view the content through *MongoExpress* using **http://localhost:8081**.
 
 The parameters are stored in the *.env* file in the root of the project: 
 ```
@@ -57,4 +57,7 @@ FLASK_ENV=development
 UPDATE_AUTO=0 # Whether or not to start a process to update data each day at UPDATE_TIME. 
 UPDATE_TIME=00:00 # The update time expressed as HH:MM based on Italy time zone.
 ```
-ENJOY :rocket: :rocket:
+ENJOY :rocket: :rocket: and LET ME KNOW WHAT YOU THINK ABOUT IT.
+
+## Thanks to https://github.com/pcm-dpc/COVID-19 for the data.
+
