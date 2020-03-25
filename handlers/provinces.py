@@ -7,14 +7,16 @@ from commons.utils import check_dates
 #     data = flask.json.load(f)
 
 
-def read_all(startDate=None, endDate=None):
-    result = cache.get(f'province_{startDate}_{endDate}')
+def read_all(regionName=None, startDate=None, endDate=None):
+    result = cache.get(f'province_{regionName}_{startDate}_{endDate}')
     if not result:
         start_date, end_date = check_dates(startDate, endDate)
         collection = get_db()['province']
         query = get_date_query(start_date, end_date)
+        if regionName:
+            query['denominazione_regione'] = regionName
         result = [doc for doc in collection.find(query, {'_id': False})]
-    cache.set(f'province_{startDate}_{endDate}', result)
+        cache.set(f'province_{regionName}_{startDate}_{endDate}', result)
     return result
 
 

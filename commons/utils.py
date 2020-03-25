@@ -16,7 +16,7 @@ def check_dates(startDate, endDate):
         if end_date < start_date:
             return flask.make_response(flask.jsonify({'msg': 'startDate must be lower or equal than endDate'}), 401)
 
-    return start_date, endDate
+    return start_date, end_date
 
 
 def sanitize_date(date, pattern=r'^\d{4}-\d{2}-\d{2}', as_date=False):

@@ -47,13 +47,13 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Error'
-  /region:
+  /regions:
     get:
       tags:
         - Region
       summary: The region data structure supported by the server application
       description: Read all the observation data of all the regions
-      operationId: handlers.region.read_all
+      operationId: handlers.regions.read_all
       parameters:
         - name: startDate
           in: query
@@ -88,13 +88,13 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Error'
-  /region/{regionName}:
+  /regions/{regionName}:
     get:
       tags:
         - Region
       summary: The region data structure supported by the server application
       description: Read all the observation data of a region
-      operationId: handlers.region.read_one
+      operationId: handlers.regions.read_one
       parameters:
         - name: regionName
           in: path
@@ -135,14 +135,19 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Error'
-  /province:
+  /provinces:
     get:
       tags:
         - Province
       summary: The province data structure supported by the server application
       description: Read all the observation data of all the provinces
-      operationId: handlers.province.read_all
+      operationId: handlers.provinces.read_all
       parameters:
+        - name: regionName
+          in: query
+          description: A region name to filter out provinces' observations.
+          schema:
+            type: string
         - name: startDate
           in: query
           description: The start date of the observations in the format YYYY-MM-DD
@@ -176,13 +181,13 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Error'
-  /province/{provinceName}:
+  /provinces/{provinceName}:
     get:
       tags:
         - Province
       summary: The province data structure supported by the server application
       description: Read all the observation data of a province
-      operationId: handlers.province.read_one
+      operationId: handlers.provinces.read_one
       parameters:
         - name: provinceName
           in: path
